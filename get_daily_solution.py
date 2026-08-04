@@ -9,9 +9,10 @@ from pymongo import MongoClient
 import random
 
 
-from wordfreq import iter_wordlist
+# from wordfreq import iter_wordlist
 
 
+from wordle_game import Wordle
 
 uri = os.getenv("MONGODB_URI")
 client = MongoClient(uri)
@@ -23,21 +24,15 @@ daily_solution = db["daily_solution"]
 
 #other operations: find/find_one, update_one/update_many, delete_one/delete_many
 
-all_words = [word for word in iter_wordlist('en') if len(word) == 5 and word.isalpha()]
+# all_words = [word for word in iter_wordlist('en') if len(word) == 5 and word.isalpha()]
 
 
-def get_solution_pool(pool_size=2000, word_length=5):
-    """Get most common {word_length}-letter words to use as a full answer pool."""
-    pool = []
-    for word in iter_wordlist('en'):
-        if len(word) == word_length and word.isalpha():
-            pool.append(word)
-        if len(pool) == pool_size:
-            break
-    return pool
+all_words = Wordle.solution_window
+
+
 
 def lambda_handler(event, context):
-    solutions = get_solution_pool()
+    solutions = Wordle().get_solution_pool(2000)
 
     #empty dictionary tells mongoDB to find every document in the collection
     #projection: {"solution":1} tells mongoDB to send back the "solution" field + default id
