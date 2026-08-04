@@ -44,34 +44,17 @@ class Wordle:
         self.current_word = self.current_word if len(self.current_word) == self.word_length and set(self.current_word).issubset(set("abcdefghijklmnopqrstuvwxyz")) else None  #walrus sign can make this one line
 
     @staticmethod
-    def check_input(user_input: str, daily_solution: str) -> dict:
+    def check_input(user_input: str, daily_solution: str) -> Lgaist[int]:
         """Checks a user input and returns a list of integers based on correct/incorrect letters and position."""
         letter_colors = [0] * 5
-
-        #clean data:
-        user_input = str(user_input).strip().lower()
-        daily_solution = str(daily_solution).strip().lower()
-
-        if not user_input or not daily_solution:
-            return {"success": False, "message": "User input is empty or solution not found.", "solution": daily_solution}
-
-        solution_letters = {}
-        for letter in daily_solution:
-            if letter not in solution_letters:
-                solution_letters[letter] = 1
-            solution_letters[letter] += 1
-
-        if len(user_input) != 5:
-            return {"success": False, "message": "Please enter a 5-letter word.", "solution": daily_solution}
+ #apple
         for i, letter in enumerate(user_input): #apple
             if letter in daily_solution: #alert 2 1 1 0 0
                 if user_input[i] == daily_solution[i]:
                     letter_colors[i] = 2 #green
-                    solution_letters[letter] -= 1
-                elif solution_letters[letter] != 0:
+                else :
                     letter_colors[i] = 1 #yellow
-                    solution_letters[letter] -= 1 #else: there are no available letters left for this. leave gray
-        return {"success": True, "colors": letter_colors, "solution": daily_solution}
+        return letter_colors
 
 
     def main_game_loop(self):

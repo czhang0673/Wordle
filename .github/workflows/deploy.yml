@@ -1,0 +1,46 @@
+name: Deploy to AWS Lambda
+
+#.yml: also .yaml. used to write configuration. essentially "human friendly json"
+#uses indentation and line breaks to structure code, similar to python
+
+on:
+  push:
+    branches:
+      - main #does actions when pushing to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest #tells github to start a temporary virtual machine (server). this is a "runner"
+    #this server uses ubuntu linux - open source distribution of linux os. latest grabs most current
+
+    steps:
+      #name keyword is optional but helpful for human readability
+      - name: Checkout code
+      #uses: runs a pre-built block of code
+        uses: actions/checkout@v4 #pre-built action that downloads the actual code of the repository into the runner
+        #actions/checkout@v4 is a file path - actions the github organization -> repository named checkout, version 4
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt -t .
+
+      - name: Zip the code
+        #run: used for running a command, like typing into command terminal
+        #zips all the code to deployment.zip; -r is recursive - gets everything in the folders of the folders
+        # . means current directory is the source. -x excludes everything that includes .git in the file/folder path
+        run: zip -r deployment.zip . -x "*.git*"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          #${{ }} is expression syntax. like f string in python
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Update Lambda Function Code
+        run: | # | = "literal block scalar indicator. the line below is 3 lines but yaml treats it as one
+          aws lambda update-function-code \
+            --function-name your-function-name \
+            --zip-file fileb://deployment.zip
+
+#better practice to use aws openid connect eventually - uses temporary security tokens?
