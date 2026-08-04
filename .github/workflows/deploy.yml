@@ -27,7 +27,7 @@ jobs:
         #run: used for running a command, like typing into command terminal
         #zips all the code to deployment.zip; -r is recursive - gets everything in the folders of the folders
         # . means current directory is the source. -x excludes everything that includes .git in the file/folder path
-        run: zip -r deployment.zip . -x "*.git*" -x "
+        run: zip -r deployment.zip . -x "*.git*"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
