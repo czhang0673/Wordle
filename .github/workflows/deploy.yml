@@ -37,10 +37,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Update Lambda Function Code
+      - name: Update First Lambda
         run: | # | = "literal block scalar indicator. the line below is 3 lines but yaml treats it as one
-          aws lambda update-function-code \
-            --function-name your-function-name \
+            aws lambda update-function-code \
+            --function-name testFunction0673 \
             --zip-file fileb://deployment.zip
 
+      - name: Update Second Lambda
+        run: |
+            aws lambda update-function-code \
+              --function-name dailySolution \
+              --zip-file fileb://deployment.zip
 #better practice to use aws openid connect eventually - uses temporary security tokens?
