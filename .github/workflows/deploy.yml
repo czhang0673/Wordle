@@ -6,7 +6,7 @@ name: Deploy to AWS Lambda
 on:
   push:
     branches:
-      - main #does actions when pushing to main branch
+      - master #does actions when pushing to master (main) branch
 
 jobs:
   deploy:
