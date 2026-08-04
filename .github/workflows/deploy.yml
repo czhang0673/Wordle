@@ -48,4 +48,6 @@ jobs:
             aws lambda update-function-code \
               --function-name dailySolution \
               --zip-file fileb://deployment.zip
+
 #better practice to use aws openid connect eventually - uses temporary security tokens?
+#test
