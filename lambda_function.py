@@ -127,7 +127,8 @@ def lambda_handler(event, context):  # event and context are automatically passe
                 #content-Type is - which is "application/json"
                 'Access-Control-Allow-Methods': 'OPTIONS,POST' #http actions OPTIONS and POST are permitted
             },
-            'body': json.dumps(game.check_input(user_input, daily_solution))
+            'body': json.dumps({
+                "colors": game.check_input(user_input, daily_solution)})
         }  # when lambda_handler runs, it hands this dictionary back to aws
     except Exception as e:
         print(f"Error: {format_exc()}")
