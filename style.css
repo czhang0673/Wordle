@@ -1,0 +1,92 @@
+/* css grid: a layout system built into css specifically for two dimensional layouts - allows rows and columns to be defined at same time
+flexbox(flexible box layout) defines things in one dimension. flex container: can make it "flex" and shrink to fill available space
+css grid can be flexible or rigid - grid container
+flexbox - content dictates layout; grid - layout dictates content(?) more rigid, predetermined slots
+*/
+
+body {
+     /* note: because body is the "parent" of all elements on the page, properties like color, font-family are inherited by all children */
+    font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    /* font stack: tries to load clear sans first, then loads helvetica neue, then arial, or if everything else fails, just use the default sans-serif font */
+     /* css asks the user's device if they have this font installed. the first two have ' ' just becasue the name has spaces */
+    font-weight: 400;
+     background-color: #121213; 
+    /* bg color makes the entire page dark gray*/
+    color: #f5f5f5;
+    /* color makes the elements(text?) white*/
+    display: flex;
+    /* flexbox makes centering things on a webpage much easier*/
+    justify-content: center;  /* this uses main axis - puts things horizontal by default */
+    margin: 0;  /* browser has hidden default spreadsheet that adds 8 pixel margin to body*/
+    height: 100vh;  /* vh = viewport height - makes element 100% of heeight of user's visible browser window*/
+}
+
+.game-container {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;  /* tells the main axis to be vertical - cross axis is now horizontal */
+    align-items:center;  /* so align-item, which is used to move things along cross axis - centers grid and header horizontally*/
+}
+
+header { /* "frame */
+    width: 100%;
+    border-bottom: 1px solid #3a3a3c;
+    margin-bottom: 30px;
+}
+
+h1 { /* painting */
+    text-align: center;
+    font-size: 2.5rem;  /* rem - root "M"; name from an "em". square block of metal used to create blankspace on printing press - width exactly equal to height(point size) of font being used
+    m was usually the widest letter of the alphabet - so height was usually about the width of an m
+    r-em - relative unit that scales based on the root of the document to prevent proportional scaling issues for nested elements
+    2.5rem - 2.5 times default browser text size(usually 16px)
+    */
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    margin: 10px 0;
+    text-transform: uppercase;
+}
+
+/* # is an id selector - finds the specific, unique html element that has this id*/
+#board {
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    grid-template-rows: repeat(6, 60px);
+    gap: 5px;
+    /* 5 columns x 6 rows of 60x60 boxes, 5px gap */
+}
+
+/* these . periods indicate classes. browser finds anything in html page that has that word in its class attribute and applies the below properties */
+
+.tile{
+    border: 2px solid #3a3a3c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem; /* 32px */
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.correct { 
+    background-color: #538d4e; 
+    border-color: #538d4e; 
+    animation: flip 0.5s ease forwards; /* tells browser to do the flip animation, as defined below*/
+}
+.contains { 
+    background-color: #b59f3b; 
+    border-color: #b59f3b; 
+    animation: flip 0.5s ease forwards;
+}
+.incorrect  { 
+    background-color: #3a3a3c; 
+    border-color: #3a3a3c; 
+    animation: flip 0.5s ease forwards;
+}
+
+@keyframes flip { /* note: use @ to define "at rules"; which tell CSS engine that the following code block is not meant as normal HTML styling, but a "structural rule" or special behavior */
+    0% { transform: rotateX(0deg); }
+    50% { transform: rotateX(90deg); }
+    100% { transform: rotateX(0deg); }
+}

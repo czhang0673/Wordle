@@ -57,11 +57,15 @@ def lambda_handler(event, context):  # event and context are automatically passe
     try:
         print("Incoming event:", event) #cant concatenate string and dictionary. instead pass two arguments to print()
         #prints both separated by a space
-        body = event.get('body') or "{}" #python or operator checks first value - if "truthy", use firs
+        body = event.get('body') or "{}" #python or operator checks first value - if "truthy", use first
         #if "falsy" (ie. none or "") uses second
         body_data = json.loads(body)
 
         user_input = body_data.get("user_input", "")
+
+        #to implement: pop up of correct solution if all 6 attempts are wrong
+        #to implement: login system for users to track past guesses
+
         # if body:
         #     if event.get('isBase64Encoded', False):
         #         #api payload with json data usually encoded in utf-8
