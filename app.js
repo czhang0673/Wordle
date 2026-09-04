@@ -5,7 +5,7 @@ const columns = 5;
 let currentRow = 0; /* let = a variable that changes */
 let currentCol = 0;
 
-function initializeBoard() {
+async function initializeBoard() {
 	for (let r = 0; r < rows; r++) {
 		for (let c = 0; c < columns; c++) {
 			let tile = document.createElement("div")
@@ -13,6 +13,38 @@ function initializeBoard() {
 			tile.classList.add("tile");
 			board.appendChild(tile);
 		}
+	}
+
+	const dataToSend = {
+	"user_input": "tests",
+		"key1": "warmup",
+		"turn": "-1"
+	 };
+
+	let body_content = JSON.stringify(dataToSend)
+	
+	try {
+		//await tells js to pause this function and wait for backend, but run the rest of the webpage as normal
+		let response = await fetch("https://nntpan6521.execute-api.us-east-2.amazonaws.com/default/testFunction0673/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: body_content
+		});
+
+		if (!response.ok) {
+			throw new Error('HTTP error: ${response.status}');
+		}
+
+		let responseData = await response.json();
+
+	// console.log("Warmup Lambda returned:", responseData);
+		console.log("Warmup Lambda run")
+		
+	} catch (error) {
+		// resultDisplay.innerText = "Error connecting to server.";
+		console.error("Backend error:", error);
 	}
 } 
 
@@ -60,7 +92,8 @@ async function sendGuess() {
 	//packages front end keystrokes into the right format to send to backend
 	const dataToSend = {
 	"user_input": guess,
-		"key1": "test"
+		"key1": "test",
+		"turn": currentRow
 	 };
 
 	let body_content = JSON.stringify(dataToSend)

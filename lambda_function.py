@@ -62,7 +62,7 @@ def lambda_handler(event, context):  # event and context are automatically passe
         body_data = json.loads(body)
 
         user_input = body_data.get("user_input", "")
-
+        
         #to implement: pop up of correct solution if all 6 attempts are wrong
         #to implement: login system for users to track past guesses
 
